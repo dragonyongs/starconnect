@@ -17,10 +17,10 @@
   "scripts": {
     "dev": "nodemon server/server.js",
     "start": "concurrently \"npm run server/server.js\" \"npm run server/client\"",
-    "starts": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "starts": "npm run start",
+    "build": "npm run build",
+    "test": "npm run test",
+    "eject": "npm run eject"
   },
   "eslintConfig": {
     "extends": [
