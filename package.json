@@ -16,7 +16,7 @@
   },
   "scripts": {
     "dev": "nodemon server/server.js",
-    "start": "concurrently \"npm run server/server.js\"",
+    "start": "concurrently \"server/server.js\"",
     "starts": "npm run start",
     "build": "echo 'No build required'",
     "test": "npm run test",
