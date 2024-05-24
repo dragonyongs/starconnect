@@ -53,7 +53,7 @@ const RegisterForm = () => {
                 })
                 .then(response => response.json())
                 .then(data => console.log(data))
-                .then(navigate('/'))
+                .then(navigate('/login'))
                 .catch(error => console.error(error));
             } catch (error) {
                 console.error('An error occurred while registering user:', error);
@@ -70,7 +70,7 @@ const RegisterForm = () => {
             <Input ref={emailRef} type="email" name="email" aria-label="Email" autoComplete="off" required placeholder="Email" />
             <Input ref={personalPhoneRef} type="text" name="personalPhone" aria-label="Personal Phone" autoComplete="off" placeholder="Personal Phone" />
             <Input ref={companyNameRef} type="text" name="companyName" aria-label="Company Name" autoComplete="off" placeholder="Company Name" />
-            <Input ref={hireDateRef} type="date" name="hireDate" aria-label="Hire Date" autoComplete="off" placeholder="hire Date" />
+            <Input ref={hireDateRef} type="date" name="hireDate" aria-label="Hire Date" required autoComplete="off" placeholder="hire Date" />
             <Button type="submit" className="register-btn"><FiUnlock /> 등록</Button>
         </form>
     );

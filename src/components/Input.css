@@ -20,7 +20,7 @@ label span {
 .custom-input::placeholder {
     font-size: .875rem;
 }
-
+.required .custom-input:is(:focus, :active),
 .custom-input:is(:focus, :active) {
     border: 1px solid #009900;
     outline: none;
