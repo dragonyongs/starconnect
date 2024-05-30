@@ -8,6 +8,7 @@ import { Routes, Route } from 'react-router-dom';
 import Missing from './layouts/Missing';
 import Layout from './layouts/Layout';
 import Unauthorized from './layouts/Unauthorized';
+import PersistLogin from './components/PersistLogin';
 import RequireAuth from './components/RequireAuth';
 
 const ROLES = {
@@ -29,18 +30,20 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
-          {/* we want to protect these routes */}
-          <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin]} />}>
-            <Route exact path='/' element={<Main />} />
-          </Route>
-          <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-            <Route path="/profile" element={<ProfilePage />} />
-          </Route>
-          <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin, ROLES.Admin]} />}>
-            <Route path="/admin" element={<AdminPage />} />
-          </Route>
-          <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin]} />}>
-            <Route path="/users/:userId" element={<User />} />
+          <Route element={<PersistLogin />}>
+            {/* we want to protect these routes */}
+            <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin]} />}>
+              <Route path='/' element={<Main />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+              <Route path="/profile" element={<ProfilePage />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin, ROLES.Admin]} />}>
+              <Route path="/admin" element={<AdminPage />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin]} />}>
+              <Route path="/users/:userId" element={<User />} />
+            </Route>
           </Route>
 
           {/* catch all */}
