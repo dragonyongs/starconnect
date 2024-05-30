@@ -27,7 +27,7 @@ function App() {
           {/* public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
 
           {/* we want to protect these routes */}
           <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin]} />}>

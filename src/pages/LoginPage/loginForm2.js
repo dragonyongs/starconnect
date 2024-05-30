@@ -56,15 +56,16 @@ const LoginForm2 = () => {
 
             // console.log("response?.data", response?.data);
             const accessToken = response?.data?.accessToken;
+            const refreshToken = response?.data?.refreshToken;
             const roles = response?.data?.roles;
 
-            setAuth({ email, password, roles, accessToken });
+            setAuth({ email, password, roles, accessToken, refreshToken });
             setEmail('');
             setPassword('');
             navigate(from, { replace: true });
 
-            // console.log('response?.data?.accessToken', response?.data?.accessToken);
             localStorage.setItem('accessToken', response?.data?.accessToken);
+            localStorage.setItem('refreshToken', response?.data?.refreshToken);
 
             if (remember) {
                 localStorage.setItem('savedEmail', email);
