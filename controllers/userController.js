@@ -45,7 +45,7 @@ async function updatedUser(req, res) {
         if (!updatedUser) {
             return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
         }
-        console.log('updatedUser', updatedUser);
+        // console.log('updatedUser', updatedUser);
 
         res.json({ message: "사용자 정보가 업데이트되었습니다.", user: updatedUser });
     } catch (error) {

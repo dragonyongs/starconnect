@@ -35,16 +35,16 @@ const RegisterForm = () => {
 
         if (isFormValid) {
             const formData = {
-                name: nameRef.current.value,
-                password: passwordRef.current.value,
-                email: emailRef.current.value,
-                personalPhone: personalPhoneRef.current.value,
-                companyName: companyNameRef.current.value,
-                hireDate: hireDateRef.current.value,
+                name: nameRef.current.value.replace(/\s/g, ''),
+                password: passwordRef.current.value.replace(/\s/g, ''),
+                email: emailRef.current.value.replace(/\s/g, ''),
+                personalPhone: personalPhoneRef.current.value.replace(/\s/g, ''),
+                companyName: companyNameRef.current.value.replace(/\s/g, ''),
+                hireDate: hireDateRef.current.value.replace(/\s/g, ''),
             };
 
             try {
-                await fetch('/api/register/', {
+                await fetch('/auth/register/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const RegisterForm = () => {
                     body: JSON.stringify(formData),
                 })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                // .then(data => console.log(data))
                 .then(navigate('/login'))
                 .catch(error => console.error(error));
             } catch (error) {

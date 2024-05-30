@@ -9,7 +9,6 @@ const Main = () => {
     const { users, loading, error } = useFetchUsers();
 
     const handleClick = () => {
-        console.log('버튼이 클릭되었습니다.');
         navigate('/register');
     };
     
@@ -22,7 +21,7 @@ const Main = () => {
             <ul>
                 {users.map((user, index) => (
                     <li key={user._id}>
-                        <Link to={`/users/${user._id}`}>{index + 1} {user.name}</Link>
+                        <Link to={`/users/${user._id}`}>{index + 1}. {user.name}</Link>
                     </li>
                 ))}
             </ul>

@@ -11,7 +11,7 @@ const useFetchUser = (userId) => {
     useEffect(() => {
         const fetchUser = async () => {
 
-            console.log('사용자 정보 로드');
+            // console.log('사용자 정보 로드');
             try {
                 const response = await fetch(`/api/users/${userId}`);
                 if (!response.ok) {
@@ -54,7 +54,7 @@ const useFetchUser = (userId) => {
 
     const deleteUser = async (userId) => {
         try {
-            console.log('deleteUser', userId);
+            // console.log('deleteUser', userId);
 
             const response = await fetch(`/api/users/${userId}`, {
                 method: 'DELETE',

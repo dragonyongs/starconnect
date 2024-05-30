@@ -17,20 +17,17 @@ const UserProfile = () => {
     if (!user) {
         return <div>No user found</div>;
     }
-    
+
     const formatHireDate = (date) => {
         if (!date) return "";
-        const d = new Date(date);
-        const month = `0${d.getMonth() + 1}`.slice(-2);
-        const day = `0${d.getDate()}`.slice(-2);
-        return `${d.getFullYear()}-${month}-${day}`;
+        return date;
     };
 
     const userDetails = [
         { label: "이름", type: "text", value: user.name, key: "name", editable: editableFields.includes("name"), required: true },
         { label: "이메일", type: "email", value: user.email, key: "email", editable: editableFields.includes("email"), required: true  },
-        { label: "회사명", type: "text", value: user.companyName, key: "companyName", editable: editableFields.includes("companyName"), required: true },
-        { label: "휴대폰", type: "text", value: user.personalPhone, key: "personalPhone", editable: editableFields.includes("personalPhone"), required: false  },
+        { label: "회사명", type: "text", value: user.company, key: "company", editable: editableFields.includes("company"), required: true },
+        { label: "휴대폰", type: "text", value: user.phone, key: "phone", editable: editableFields.includes("phone"), required: false  },
         { label: "입사일", type: "date", value: formatHireDate(user.hireDate), key: "hireDate", editable: editableFields.includes("hireDate"), required: false },
     ];
 
@@ -55,16 +52,6 @@ const UserProfile = () => {
             if (missingRequiredFields.length > 0) {
                 alert(`다음 필수 입력 필드를 입력해주세요: ${missingRequiredFields.join(', ')}`);
                 return;
-            }
-
-            if (editedUser.hireDate) {
-                const hireDate = new Date(editedUser.hireDate);
-                if (isNaN(hireDate.getTime())) {
-                    alert("입사일이 유효하지 않습니다.");
-                    return;
-                } else {
-                    editedUser.hireDate = formatHireDate(user.hireDate);
-                }
             }
             
             try {

@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
 	},
 
 	// 개인 전화번호
-	"personalPhone": String,
+	"phone": String,
 
 	// 이메일
 	"email": {
@@ -23,8 +23,11 @@ const userSchema = new mongoose.Schema({
 		required: true
 	},
 
+	// 접속 권한
+	"roles": [String],
+	
 	// 회사명
-	"companyName": String,
+	"company": String,
 
 	// 부서
 	"department": {
@@ -51,10 +54,7 @@ const userSchema = new mongoose.Schema({
     },
 
 	// 회사 전화번호
-	"companyPhone": String,
-
-	// 추가 회사 전화번호
-	"additionalCompanyPhones": [String],
+	"officePhones": [String],
 
 	// 업무 전화번호
 	"workPhones": [String],
