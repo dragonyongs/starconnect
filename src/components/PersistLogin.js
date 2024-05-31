@@ -1,51 +1,27 @@
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/AuthProvider";
 import { Outlet } from "react-router-dom";
-import { useState, useEffect } from "react";
-import useRefreshToken from '../hooks/useRefreshToken';
-import useAuth from '../hooks/useAuth';
 
 const PersistLogin = () => {
+    const { setAuth } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
-    const refresh = useRefreshToken();
-    const { auth, persist } = useAuth();
 
     useEffect(() => {
-        let isMounted = true;
-
-        const verifyRefreshToken = async () => {
-            try {
-                await refresh();
-            }
-            catch (err) {
-                console.error(err);
-            }
-            finally {
-                isMounted && setIsLoading(false);
-            }
+        const token = localStorage.getItem("accessToken");
+        const refreshToken = localStorage.getItem("refreshToken");
+        const roles = JSON.parse(localStorage.getItem("roles")) || [];
+        if (token) {
+            console.log("PersistLogin: Setting auth", { token, refreshToken, roles });
+            setAuth({ token, refreshToken, roles });
         }
-
-        // persist added here AFTER tutorial video
-        // Avoids unwanted call to verifyRefreshToken
-        !auth?.accessToken && persist ? verifyRefreshToken() : setIsLoading(false);
-
-        return () => isMounted = false;
-    }, [])
-
-    useEffect(() => {
-        console.log('PersistLogin-auth', auth);
-        console.log(`isLoading: ${isLoading}`);
-        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`);
-    }, [isLoading])
+        setIsLoading(false);
+    }, [setAuth]);
 
     return (
         <>
-            {!persist
-                ? <Outlet />
-                : isLoading
-                    ? <p>Loading...</p>
-                    : <Outlet />
-            }
+            {isLoading ? <p>Loading...</p> : <Outlet />}
         </>
-    )
+    );
 }
 
-export default PersistLogin
+export default PersistLogin;

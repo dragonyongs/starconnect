@@ -1,30 +1,32 @@
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage/Register';
 import LoginPage from './pages/LoginPage/Login';
 import ProfilePage from './pages/ProfilePage/Profile';
 import AdminPage from './pages/AdminPage/Admin';
 import Main from './layouts/Main';
 import User from './components/UserProfile';
-import { Routes, Route } from 'react-router-dom';
 import Missing from './layouts/Missing';
 import Layout from './layouts/Layout';
 import Unauthorized from './layouts/Unauthorized';
 import PersistLogin from './components/PersistLogin';
 import RequireAuth from './components/RequireAuth';
+import { AuthProvider } from './context/AuthProvider';
 
 const ROLES = {
-  'SuperAdmin': 'superadmin', //최고 관리자
-  'Admin': 'admin', // 관리자
-  'Executive': 'executive', // 임원
-  'DepartmentHead': 'departmenthead', // 본부장
-  'TeamLead': 'teamlead', // 팀장
-  'SectionHead': 'sectionhead', // 파트장
-}
+  'SuperAdmin': 'superadmin',
+  'Admin': 'admin',
+  'Executive': 'executive',
+  'DepartmentHead': 'departmenthead',
+  'TeamLead': 'teamlead',
+  'SectionHead': 'sectionhead',
+};
 
 function App() {
   return (
+    <AuthProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
-
           {/* public routes */}
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -48,16 +50,10 @@ function App() {
 
           {/* catch all */}
           <Route path="*" element={<Missing />} />
-
         </Route>
       </Routes>
+    </AuthProvider>
   );
 }
 
 export default App;
-
-// import Header from './layouts/Header';
-// import Footer from './layouts/Footer';
-// import NotFound from './layouts/NotFound';
-// import ProtectedRoute from './components/protectedRoute';
-// import { AuthProvider } from './context/Authcontext';

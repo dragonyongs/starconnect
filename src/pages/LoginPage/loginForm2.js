@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
-
 import axios from "../../services/axiosInstance";
+
 const LOGIN_URL = '/auth/login';
 
 const LoginForm2 = () => {
@@ -56,21 +56,22 @@ const LoginForm2 = () => {
             );
 
             const accessToken = response?.data?.accessToken;
+            const refreshToken = response?.data?.refreshToken;
             const roles = response?.data?.roles;
 
-            setAuth({ email, password, roles, accessToken});
+            setAuth({ email, password, roles, accessToken });
             setEmail('');
             setPassword('');
-            navigate(from, { replace: true });
-
-            localStorage.setItem('accessToken', response?.data?.accessToken);
-            localStorage.setItem('refreshToken', response?.data?.refreshToken);
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('roles', JSON.stringify(roles));
 
             if (remember) {
                 localStorage.setItem('savedEmail', email);
             } else {
                 localStorage.removeItem('savedEmail');
             }
+
             navigate(from, { replace: true });
         } catch (err) {
             if (!err?.response) {
@@ -130,7 +131,6 @@ const LoginForm2 = () => {
                         />
                         <label htmlFor="persist">Trust This Device</label>
                     </div>
-
                 </form>
                 <p>
                     Need an Account?<br />
@@ -143,4 +143,4 @@ const LoginForm2 = () => {
     )
 }
 
-export default LoginForm2
+export default LoginForm2;
