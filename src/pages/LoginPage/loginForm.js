@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import axios from "../../services/axiosInstance";
+// import Cookies from 'js-cookie';
 
 const LOGIN_URL = '/auth/login';
 
@@ -23,11 +24,11 @@ const LoginForm2 = () => {
 
     useEffect(() => {
         emailRef.current.focus();
-    }, [])
+    }, []);
 
     useEffect(() => {
         setErrMsg('');
-    }, [email, password])
+    }, [email, password]);
 
     useEffect(() => {
         const savedEmail = localStorage.getItem('savedEmail');
@@ -42,8 +43,7 @@ const LoginForm2 = () => {
 
         const loginData = {
             email: email,
-            password: password,
-            remember: remember
+            password: password
         };
 
         try {
@@ -57,13 +57,27 @@ const LoginForm2 = () => {
 
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
-            const roles = response?.data?.roles;
+            // localStorage.setItem('accessToken', accessToken);
+            // localStorage.setItem('refreshToken', refreshToken);
 
+            // const accessToken = Cookies.get('accessToken');
+            // const refreshToken = Cookies.get('refreshToken');
+            
+            // const accessToken = sessionStorage.getItem('accessToken');
+            // const refreshToken = sessionStorage.getItem('refreshToken');
+            const roles = response?.data?.roles;
+            
             setAuth({ email, password, roles, accessToken });
             setEmail('');
             setPassword('');
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
+            // Cookies.set('accessToken', accessToken);
+            // Cookies.set('refreshToken', refreshToken);
+            console.log('response.data------------', response.data);
+            console.log('accessToken------------', accessToken);
+            console.log('refreshToken------------', refreshToken);
+            
+            sessionStorage.setItem('accessToken', accessToken);
+            sessionStorage.setItem('refreshToken', refreshToken);
             localStorage.setItem('roles', JSON.stringify(roles));
 
             if (remember) {
@@ -85,20 +99,18 @@ const LoginForm2 = () => {
             }
             errRef.current.focus();
         }
-    }
+    };
 
     const togglePersist = () => {
-        setPersist(prev => !prev);
-    }
-
-    useEffect(() => {
-        localStorage.setItem("persist", persist);
-    }, [persist])
+        setPersist((prev) => !prev);
+    };
 
     return (
         <>
             <section>
-                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+                <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
+                    {errMsg}
+                </p>
                 <h1>Sign In</h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email">Email:</label>
@@ -120,6 +132,7 @@ const LoginForm2 = () => {
                         value={password}
                         required
                     />
+                    
                     <button>Sign In</button>
 
                     <div className="persistCheck">
@@ -131,16 +144,27 @@ const LoginForm2 = () => {
                         />
                         <label htmlFor="persist">Trust This Device</label>
                     </div>
+
+                    <div>
+                        <input
+                            type="checkbox"
+                            id="savedEmail"
+                            checked={remember}
+                            onChange={(e) => setRemember(e.target.checked)}
+                        />
+                        <label htmlFor="savedEmail">Remeber Me</label>
+                    </div>
                 </form>
                 <p>
-                    Need an Account?<br />
+                    Need an Account?
+                    <br />
                     <span className="line">
                         <Link to="/register">Sign Up</Link>
                     </span>
                 </p>
             </section>
         </>
-    )
-}
+    );
+};
 
 export default LoginForm2;

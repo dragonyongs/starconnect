@@ -1,16 +1,23 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import useFetchUsers from '../hooks/useFetchUsers';
-import LoadingError from './LoadingError';
-import Button from '../components/Button';
+import useFetchUsers from '../../hooks/useFetchUsers';
+import LoadingError from '../../layouts/LoadingError';
+import Button from '../../components/Button';
+import useLogout from '../../hooks/useLogout';
 
 const Main = () => {
     const navigate = useNavigate();
     const { users, loading, error } = useFetchUsers();
+    const logout = useLogout();
 
     const handleClick = () => {
         navigate('/register');
     };
+
+    const handleLogOut = async () => {
+        await logout();
+        navigate('/login'); // Redirect to login page after logout
+    }
     
     return (
         <>
@@ -27,6 +34,7 @@ const Main = () => {
             </ul>
 
             <Button onClick={handleClick}>회원가입</Button>
+            <Button onClick={handleLogOut}>로그아웃</Button>
         </>
     );
 };

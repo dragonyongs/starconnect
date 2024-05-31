@@ -86,6 +86,15 @@ const userSchema = new mongoose.Schema({
 
 	// 퇴사일
 	"resignationDate": Date,
+
+	// AccessToken & RefreshToken
+	"accessToken": {
+		type: String,
+	},
+	
+	"refreshToken": {
+		type: String,
+	}
 }, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);

@@ -4,8 +4,8 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(() => {
-        const token = localStorage.getItem("accessToken");
-        const refreshToken = localStorage.getItem("refreshToken");
+        const token = sessionStorage.getItem("accessToken");
+        const refreshToken = sessionStorage.getItem("refreshToken");
         const roles = JSON.parse(localStorage.getItem("roles")) || [];
         console.log("AuthProvider initial auth:", { token, refreshToken, roles });
         return token ? { token, refreshToken, roles } : {};
@@ -25,3 +25,5 @@ export const AuthProvider = ({ children }) => {
 }
 
 export default AuthContext;
+
+// 리프레시 발급 로직 추가 필요.

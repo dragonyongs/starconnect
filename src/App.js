@@ -4,7 +4,7 @@ import RegisterPage from './pages/RegisterPage/Register';
 import LoginPage from './pages/LoginPage/Login';
 import ProfilePage from './pages/ProfilePage/Profile';
 import AdminPage from './pages/AdminPage/Admin';
-import Main from './layouts/Main';
+import MainPage from './pages/MainPage/Main';
 import User from './components/UserProfile';
 import Missing from './layouts/Missing';
 import Layout from './layouts/Layout';
@@ -35,7 +35,7 @@ function App() {
           <Route element={<PersistLogin />}>
             {/* we want to protect these routes */}
             <Route element={<RequireAuth allowedRoles={[ROLES.SuperAdmin]} />}>
-              <Route path='/' element={<Main />} />
+              <Route path='/' element={<MainPage />} />
             </Route>
             <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
               <Route path="/profile" element={<ProfilePage />} />

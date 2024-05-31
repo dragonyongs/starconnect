@@ -1,4 +1,4 @@
-import axios from "../api/axios";
+import axios from "../services/axiosInstance"; // Ensure the path is correct
 import useAuth from "./useAuth";
 
 const useLogout = () => {
@@ -7,15 +7,17 @@ const useLogout = () => {
     const logout = async () => {
         setAuth({});
         try {
-            const response = await axios('/logout', {
-                withCredentials: true
-            });
+            const response = await axios.post('/auth/logout', {}, { withCredentials: true });
+            console.log('Logout response:', response);
+            localStorage.removeItem('roles');
         } catch (err) {
-            console.error(err);
+            console.error('Logout error:', err);
         }
     }
 
     return logout;
 }
 
-export default useLogout
+export default useLogout;
+
+// 이 훅도 처리해야함

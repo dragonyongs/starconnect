@@ -1,11 +1,12 @@
 // authController.js
 
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
-const generateTokens = require('../src/utils/tokenUtils');
 
 async function login(req, res) {
     const { email, password } = req.body;
+    console.log('login-password', password);
     try {
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) {
@@ -16,22 +17,58 @@ async function login(req, res) {
         if (!isPasswordMatch) {
             return res.status(401).json({ success: false, error: "비밀번호가 일치하지 않습니다." });
         }
-        
-        const { roles, name, _id } = foundUser;
-        req.session.user = { _id, name, email, roles };
-        const { accessToken, refreshToken } = generateTokens(foundUser);
-        console.log('login-accessToken', accessToken);
-        console.log('login-refreshToken', refreshToken);
-    
-        // 로그인 성공 후 액세스 토큰과 리프레시 토큰을 클라이언트에게 전달
-        res.json({ success: true, message: 'Login successful', email, roles, accessToken, refreshToken, redirectUrl: '/'});
 
+        const { roles, name } = foundUser;
+        const accessToken = jwt.sign({ email, name, roles: roles }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+        const refreshToken = jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+
+        foundUser.accessToken = accessToken;
+        foundUser.refreshToken = refreshToken;
+
+        await foundUser.save();
+
+        res.json({ success: true, message: 'Login successful', email, roles, accessToken, refreshToken, redirectUrl: '/' });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error Login');
     }
 }
 
+const logout = async (req, res) => {
+    req.session.destroy();
+    res.status(200).json({ message: 'Logged out successfully' });
+};
+
+async function registerUser(req, res) {
+    try {
+        const { name, password, email, phone, company, hireDate, roles } = req.body;
+
+        if (!name || !password || !email) {
+            return res.status(400).json({ error: '이름, 비밀번호, 이메일은 필수 입력 사항입니다.' });
+        }
+
+        const slatRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, slatRounds);
+
+        const newUser = await User.create({
+            name,
+            password: hashedPassword,
+            email,
+            phone,
+            company,
+            hireDate,
+            roles
+        });
+
+        res.json(newUser);
+    } catch (error) {
+        console.error('사용자 등록 중 오류 발생:', error);
+        res.status(500).json({ error: '사용자 등록 중 오류가 발생했습니다.' });
+    }
+}
+
 module.exports = {
     login,
+    logout,
+    registerUser
 };
