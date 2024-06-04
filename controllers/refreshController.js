@@ -16,7 +16,7 @@ async function refreshToken(req, res) {
         const accessToken = jwt.sign(
             { email: foundUser.email, roles: foundUser.roles, name: foundUser.name },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: '5m' }
+            { expiresIn: '15m' }
         );
         const accessTokenExpiry = jwt.decode(accessToken).exp * 1000; // ms 단위로 변환
         const expiresIn = new Date(accessTokenExpiry).toISOString();

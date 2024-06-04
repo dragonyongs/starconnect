@@ -9,7 +9,7 @@ const useLogout = () => {
         try {
             const response = await axios.post('/auth/logout', {}, { withCredentials: true });
             console.log('Logout response:', response);
-            localStorage.removeItem('roles');
+            sessionStorage.clear();
         } catch (err) {
             console.error('Logout error:', err);
         }

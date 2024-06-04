@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }) => {
                         const accessTokenNew = response.data.accessToken;
                         console.log('accessTokenNew', accessTokenNew);
                         const expiresInNew = new Date(response.data.expiresIn).toISOString();
+                        
                         // 토큰 갱신 후 auth 상태 업데이트
                         setAuth(prevAuth => ({
                             ...prevAuth,
@@ -74,7 +75,7 @@ export const AuthProvider = ({ children }) => {
             }
         };
     
-        const timer = setInterval(checkAccessTokenExpiration, 60000); // 65000015분마다 체크
+        const timer = setInterval(checkAccessTokenExpiration, 650000); // 15분마다 체크
     
         // 컴포넌트가 언마운트되면 타이머 정리
         return () => clearInterval(timer);
