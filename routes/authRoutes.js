@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 const refreshController = require('../controllers/refreshController');
-const { verifyRefreshToken } = require('../middlewares/authMiddleware');
+// const { verifyRefreshToken } = require('../middlewares/authMiddleware');verifyRefreshToken, 
 
 // login
 router.post('/login', authController.login);
@@ -16,6 +16,6 @@ router.post('/logout', authController.logout);
 router.post('/register', authController.registerUser);
 
 // token refresh API
-router.post('/refresh', verifyRefreshToken, refreshController.refreshToken);
+router.post('/refresh', refreshController.refreshToken);
 
 module.exports = router;

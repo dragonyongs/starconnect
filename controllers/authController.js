@@ -19,15 +19,20 @@ async function login(req, res) {
         }
 
         const { roles, name } = foundUser;
-        const accessToken = jwt.sign({ email, name, roles: roles }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+        const accessToken = jwt.sign({ email, name, roles: roles }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5m' });
         const refreshToken = jwt.sign({ email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
+        const accessTokenExpiry = jwt.decode(accessToken).exp * 1000; // milliseconds
+        const expiresIn = new Date(accessTokenExpiry).toISOString(); // ISO 8601 format
 
+
+        console.log('login-expiresIn', expiresIn);
+        
         foundUser.accessToken = accessToken;
         foundUser.refreshToken = refreshToken;
 
         await foundUser.save();
 
-        res.json({ success: true, message: 'Login successful', email, roles, accessToken, refreshToken, redirectUrl: '/' });
+        res.json({ success: true, message: 'Login successful', email, roles, accessToken, refreshToken, expiresIn, redirectUrl: '/' });
     } catch (error) {
         console.error(error);
         res.status(500).send('Error Login');

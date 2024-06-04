@@ -1,10 +1,14 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
+
 async function verifyRefreshToken(req, res, next) {
-    const { email } = req.body;
     try {
-        const foundUser = await User.findOne({ email: email });
+        console.log('req.body', req.body);
+        const { email } = req.body; 
+        const foundUser = await User.findOne({ email });
+        console.log('verifyRefreshToken---foundUser', foundUser);
         const refreshToken = foundUser.refreshToken; 
+        console.log('verifyRefreshToken---refreshToken', refreshToken);
 
         if (!refreshToken) {
             return res.status(401).json({ message: 'Refresh token is required' });

@@ -55,30 +55,22 @@ const LoginForm2 = () => {
                 }
             );
 
+            console.log( ' response?.data?', response?.data );
+
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
-            // localStorage.setItem('accessToken', accessToken);
-            // localStorage.setItem('refreshToken', refreshToken);
-
-            // const accessToken = Cookies.get('accessToken');
-            // const refreshToken = Cookies.get('refreshToken');
-            
-            // const accessToken = sessionStorage.getItem('accessToken');
-            // const refreshToken = sessionStorage.getItem('refreshToken');
+            const expiresIn = response?.data?.expiresIn;
             const roles = response?.data?.roles;
             
-            setAuth({ email, password, roles, accessToken });
+            setAuth({ email, roles, accessToken, expiresIn });
             setEmail('');
             setPassword('');
-            // Cookies.set('accessToken', accessToken);
-            // Cookies.set('refreshToken', refreshToken);
-            console.log('response.data------------', response.data);
-            console.log('accessToken------------', accessToken);
-            console.log('refreshToken------------', refreshToken);
-            
-            sessionStorage.setItem('accessToken', accessToken);
-            sessionStorage.setItem('refreshToken', refreshToken);
-            localStorage.setItem('roles', JSON.stringify(roles));
+
+            sessionStorage.setItem("email", email);
+            sessionStorage.setItem("expiresIn", expiresIn);
+            sessionStorage.setItem("accessToken", accessToken);
+            sessionStorage.setItem("refreshToken", refreshToken);
+            localStorage.setItem("roles", JSON.stringify(roles));
 
             if (remember) {
                 localStorage.setItem('savedEmail', email);

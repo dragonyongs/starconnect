@@ -7,12 +7,12 @@ const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const accessToken = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("accessToken");
         const refreshToken = localStorage.getItem("refreshToken");
         const roles = JSON.parse(localStorage.getItem("roles")) || [];
-        if (accessToken) {
-            console.log("PersistLogin: Setting auth", { accessToken, refreshToken, roles });
-            setAuth({ accessToken, refreshToken, roles });
+        if (token) {
+            console.log("PersistLogin: Setting auth", { token, refreshToken, roles });
+            setAuth({ token, refreshToken, roles });
         }
         setIsLoading(false);
     }, [setAuth]);
