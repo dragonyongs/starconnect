@@ -52,6 +52,11 @@ async function registerUser(req, res) {
             return res.status(400).json({ error: '이름, 비밀번호, 이메일은 필수 입력 사항입니다.' });
         }
 
+        const existingUser = await User.findOne({ email });
+        if (existingUser){
+            return res.status(409).json({ error: '이미 사용 중인 이메일입니다. '});
+        }
+
         const slatRounds = 10;
         const hashedPassword = await bcrypt.hash(password, slatRounds);
 

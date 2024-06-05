@@ -38,6 +38,7 @@ const RegisterForm2 = () => {
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
+    const [emailError, setEmailError] = useState('');
 
     const [phone, setPhone] = useState('');
     const [validPhone, setValidPhone] = useState(false);
@@ -136,9 +137,13 @@ const RegisterForm2 = () => {
         } catch (err) {
             if (!err.response) {
                 setErrMsg('서버에서 응답이 없습니다');
+            } else if (err.response.data.error === '이미 사용 중인 이메일입니다.') {
+                setEmailError('이미 사용 중인 이메일입니다.');
             } else if (err.response?.status === 400) {
                 setErrMsg('필수 입력 값이 존재합니다');
-            } else {
+            } else if (err.response?.status === 409) {
+                setErrMsg('사용중인 이메일입니다.');
+            }else {
                 setErrMsg('회원가입에 실패했습니다');
             }
         }
@@ -239,7 +244,10 @@ const RegisterForm2 = () => {
                             name="email"
                             ref={emailRef}
                             autoComplete='email'
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                setEmailError('');
+                            }}
                             value={email}
                             required
                             aria-invalid={validEmail ? "false" : "true"}
@@ -252,6 +260,7 @@ const RegisterForm2 = () => {
                             이메일 형식을 맞춰 주세요. @ 필수 입니다. <br />
                             예시) emailname@company.com
                         </p>
+                        <p className={emailError ? "error-message" : "offscreen"}>{emailError}</p> {/* 중복 에러 메시지 표시 */}
 
                         <label htmlFor='phone'>
                             Phone:

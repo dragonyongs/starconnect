@@ -1,6 +1,6 @@
 // AuthProvider.js
 import { createContext, useState, useEffect } from "react";
-import useRefreshToken from "../hooks/useRefreshToken";
+// import useRefreshToken from "../hooks/useRefreshToken";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "../services/axiosInstance";
 
@@ -8,15 +8,15 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(() => {
-        const token = sessionStorage.getItem("accessToken");
+        const accessToken = sessionStorage.getItem("accessToken");
         const refreshToken = sessionStorage.getItem("refreshToken");
         const roles = JSON.parse(localStorage.getItem("roles")) || [];
         const expiresIn = sessionStorage.getItem("expiresIn");
         console.log('AuthProvider-expiresIn', expiresIn);
         const email = sessionStorage.getItem("email");
-        console.log("AuthProvider initial auth:", { token, refreshToken, roles, expiresIn, email });
+        console.log("AuthProvider initial auth:", { accessToken, refreshToken, roles, expiresIn, email });
         return {
-            token,
+            accessToken,
             refreshToken,
             roles,
             expiresIn,

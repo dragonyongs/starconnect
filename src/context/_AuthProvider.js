@@ -4,11 +4,11 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState(() => {
-        const token = sessionStorage.getItem("accessToken");
+        const accessToken = sessionStorage.getItem("accessToken");
         const refreshToken = sessionStorage.getItem("refreshToken");
         const roles = JSON.parse(localStorage.getItem("roles")) || [];
-        console.log("AuthProvider initial auth:", { token, refreshToken, roles });
-        return token ? { token, refreshToken, roles } : {};
+        console.log("AuthProvider initial auth:", { accessToken, refreshToken, roles });
+        return accessToken ? { accessToken, refreshToken, roles } : {};
     });
 
     const [persist, setPersist] = useState(JSON.parse(localStorage.getItem("persist")) || false);
