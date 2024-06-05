@@ -1,0 +1,62 @@
+section {
+    width: 100%;
+    max-width: 560px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    padding-bottom: 1rem;
+}
+
+section form .form--input {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 8px;
+    border-width: 0;
+    border: 1px solid #ddd;
+}
+
+section form .form--input:is(.email, .password) {
+    margin-bottom: 16px;
+}
+
+.btn {
+    display: inline-flex;
+    max-width: 100%;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #f7f7f8;
+    padding: 8px 16px;
+    font-weight: 500;
+    color: #25252d;
+}
+
+button, [type=button], [type=reset], [type=submit] {
+    background-color: transparent;
+    background-image: none;
+}
+
+.btn-large {
+    padding: 10px 16px;
+    font-size: 16px;
+    line-height: 28px;
+}
+
+.btn.btn-primary {
+    background-color: #7047eb;
+    color: #fff;
+}
+
+.btn > span {
+    margin: 0 auto;
+}

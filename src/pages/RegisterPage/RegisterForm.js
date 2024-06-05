@@ -115,16 +115,15 @@ const RegisterForm2 = () => {
         };
         
         try {
-            await axios.post(REGISTER_URL,
+            const response = await axios.post(REGISTER_URL,
                 JSON.stringify(trimmedData),
                 {
                     headers: { 'Content-Type': 'application/json',},
                     withCredentials: true
                 }
             );
-            // console.log(response?.data);
-            // console.log(response?.accessToken);
-            // console.log(JSON.stringify(response));
+
+            console.log('response', response);
             setSuccess(true);
             
             // 입력 인풋 값 초기화
@@ -134,6 +133,8 @@ const RegisterForm2 = () => {
             setPhone('');
             setMatchPwd('');
 
+            localStorage.setItem('savedEmail', response?.data?.email);
+        
         } catch (err) {
             if (!err.response) {
                 setErrMsg('서버에서 응답이 없습니다');
@@ -155,7 +156,7 @@ const RegisterForm2 = () => {
                 <section>
                     <h1>Success!</h1>
                     <p>
-                        <a href='#'>Sign In</a>
+                        <a href='/login'>Sign In</a>
                     </p>
                 </section>
             ) : (

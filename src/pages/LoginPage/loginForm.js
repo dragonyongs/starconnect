@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import axios from "../../services/axiosInstance";
+import './LoginForm.css';
+
 // import Cookies from 'js-cookie';
 
 const LOGIN_URL = '/auth/login';
@@ -103,12 +105,12 @@ const LoginForm2 = () => {
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
                     {errMsg}
                 </p>
-                <h1>Sign In</h1>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="email">Email:</label>
+                    {/* <label htmlFor="email">Email:</label> */}
                     <input
                         type="text"
                         id="email"
+                        className="form--input email"
                         ref={emailRef}
                         autoComplete="off"
                         onChange={(e) => setEmail(e.target.value)}
@@ -116,16 +118,19 @@ const LoginForm2 = () => {
                         required
                     />
 
-                    <label htmlFor="password">Password:</label>
+                    {/* <label htmlFor="password">Password:</label> */}
                     <input
                         type="password"
                         id="password"
+                        className="form--input password"
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                         required
                     />
                     
-                    <button>Sign In</button>
+                    <button type="submit" className="btn btn-large btn-primary">
+                        <span>로그인</span>
+                    </button>
 
                     <div className="persistCheck">
                         <input
