@@ -33,8 +33,8 @@ const Main = () => {
                 ))}
             </ul>
 
-            <Button onClick={handleClick}>회원가입</Button>
-            <Button onClick={handleLogOut}>로그아웃</Button>
+            <Button type="button" onClick={handleClick}>회원가입</Button>
+            <Button type="button" onClick={handleLogOut}>로그아웃</Button>
         </>
     );
 };

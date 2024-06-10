@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './pages/RegisterPage/Register';
@@ -12,10 +11,11 @@ import Layout from './layouts/Layout';
 import Unauthorized from './layouts/Unauthorized';
 import PersistLogin from './components/PersistLogin';
 import RequireAuth from './components/RequireAuth';
+import PublicRoute from './components/PublicRoute'; // Import PublicRoute
 import { AuthProvider } from './context/AuthProvider';
 
 const ROLES = {
-  'User':'user',
+  'User': 'user',
   'SuperAdmin': 'superadmin',
   'Admin': 'admin',
   'Executive': 'executive',
@@ -30,8 +30,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
+          <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           <Route element={<PersistLogin />}>
