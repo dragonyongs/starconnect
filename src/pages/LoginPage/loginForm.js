@@ -2,14 +2,12 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 import axios from "../../services/axiosInstance";
-import './LoginForm.css';
-
-// import Cookies from 'js-cookie';
+import "../../index.css";
 
 const LOGIN_URL = '/auth/login';
 
-const LoginForm2 = () => {
-    const { setAuth, persist, setPersist } = useAuth();
+const LoginForm = () => {
+    const { auth, setAuth, persist, setPersist } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,8 +23,10 @@ const LoginForm2 = () => {
     const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
-        emailRef.current.focus();
-    }, []);
+        if (!auth?.isAuthenticated) {
+            emailRef.current.focus();
+        }
+    }, [auth]);
 
     useEffect(() => {
         setErrMsg('');
@@ -39,6 +39,12 @@ const LoginForm2 = () => {
             setRemember(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (auth?.isAuthenticated) {
+            navigate(from, { replace: true });
+        }
+    }, [auth, from, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,14 +63,14 @@ const LoginForm2 = () => {
                 }
             );
 
-            console.log( ' response?.data?', response?.data );
+            console.log('response?.data?', response?.data);
 
             const accessToken = response?.data?.accessToken;
             const refreshToken = response?.data?.refreshToken;
             const expiresIn = response?.data?.expiresIn;
             const roles = response?.data?.roles;
             
-            setAuth({ email, roles, accessToken, expiresIn });
+            setAuth({ email, roles, accessToken, refreshToken, expiresIn, isAuthenticated: true });
             setEmail('');
             setPassword('');
 
@@ -85,9 +91,11 @@ const LoginForm2 = () => {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 400) {
-                setErrMsg('Missing Email or Password');
+                console.log('Missing Email or Password');
+                setErrMsg(err.response?.data?.error);
             } else if (err.response?.status === 401) {
-                setErrMsg('Unauthorized');
+                console.log('Unauthorized');
+                setErrMsg(err.response?.data?.error);
             } else {
                 setErrMsg('Login Failed');
             }
@@ -99,14 +107,17 @@ const LoginForm2 = () => {
         setPersist((prev) => !prev);
     };
 
+    if (auth?.isAuthenticated) {
+        return null;
+    }
+
     return (
         <>
-            <section>
+            <section className="auth--form">
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">
                     {errMsg}
                 </p>
-                <form onSubmit={handleSubmit}>
-                    {/* <label htmlFor="email">Email:</label> */}
+                <form className="login" onSubmit={handleSubmit}>
                     <input
                         type="text"
                         id="email"
@@ -118,7 +129,6 @@ const LoginForm2 = () => {
                         required
                     />
 
-                    {/* <label htmlFor="password">Password:</label> */}
                     <input
                         type="password"
                         id="password"
@@ -129,34 +139,37 @@ const LoginForm2 = () => {
                     />
                     
                     <button type="submit" className="btn btn-large btn-primary">
-                        <span>로그인</span>
+                        <span className="mx-auto">로그인</span>
                     </button>
 
-                    <div className="persistCheck">
-                        <input
-                            type="checkbox"
-                            id="persist"
-                            onChange={togglePersist}
-                            checked={persist}
-                        />
-                        <label htmlFor="persist">Trust This Device</label>
-                    </div>
+                    <div className="authOptionsContainer">
+                        <div className="persistCheck">
+                            <input
+                                type="checkbox"
+                                id="persist"
+                                onChange={togglePersist}
+                                checked={persist}
+                            />
+                            <label htmlFor="persist">신뢰할 수 있는 기기</label>
+                        </div>
 
-                    <div>
-                        <input
-                            type="checkbox"
-                            id="savedEmail"
-                            checked={remember}
-                            onChange={(e) => setRemember(e.target.checked)}
-                        />
-                        <label htmlFor="savedEmail">Remeber Me</label>
+                        <div>
+                            <input
+                                type="checkbox"
+                                id="savedEmail"
+                                checked={remember}
+                                onChange={(e) => setRemember(e.target.checked)}
+                            />
+                            <label htmlFor="savedEmail">이메일 기억</label>
+                        </div>
                     </div>
                 </form>
-                <p>
-                    Need an Account?
+
+                <p className="accountNotice">
+                    아직 계정이 없으신가요?
                     <br />
                     <span className="line">
-                        <Link to="/register">Sign Up</Link>
+                        <Link to="/register">가입하기</Link>
                     </span>
                 </p>
             </section>
@@ -164,4 +177,4 @@ const LoginForm2 = () => {
     );
 };
 
-export default LoginForm2;
+export default LoginForm;

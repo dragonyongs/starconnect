@@ -8,12 +8,12 @@ const Unauthorized = () => {
 
     return (
         <section>
-            <h1>Unauthorized</h1>
+            <h1>현재 승인 대기중입니다</h1>
             <br />
-            <p>You do not have access to the requested page.</p>
+            <p>요청하신 페이지에 접근하실 수 없습니다.</p>
             <div className="flexGrow">
-                <button onClick={goBack}>Go Back</button>
-                <button onClick={goLogin}>Login</button>
+                <button onClick={goBack}>이전 페이지</button>
+                <button onClick={goLogin}>로그인</button>
             </div>
         </section>
     )

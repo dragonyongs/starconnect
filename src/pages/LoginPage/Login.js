@@ -1,13 +1,12 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import './LoginLayout.css';
 import '../../index.css'
 
 const LoginPage = () => {
     return (
         <>
-            <div className="login--page">
-                <div className="login--area">
+            <div className="auth--layout">
+                <div className="auth--area">
                     <h1 className="login--title">Sign in to StarRich Connect</h1>
                     <LoginForm />
                 </div>

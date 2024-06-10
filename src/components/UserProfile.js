@@ -4,7 +4,6 @@ import useFetchUser from "../hooks/useFetchUser";
 import LoadingError from '../layouts/LoadingError'; 
 import Button from './Button';
 import Input from './Input';
-import '../pages/RegisterPage/RegisterForm.css';
 
 const UserProfile = () => {
     const { userId } = useParams();
@@ -85,7 +84,7 @@ const UserProfile = () => {
 
             <LoadingError loading={loading} error={error} />
 
-            <form className="register-form">
+            <form className="info">
                 {userDetails.map((detail, index) => 
                     detail.editable ? (
                         <Input 

@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../../services/axiosInstance";
-import './registerForm.css';
+import "../../index.css";
 
 const USER_REGEX = /^[가-힣]{2,6}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -10,7 +11,8 @@ const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PHONE_REGEX = /^010-\d{4}-\d{4}$/;
 const REGISTER_URL = '/auth/register';
 
-const RegisterForm2 = () => {
+const RegisterForm = () => {
+    const navigate = useNavigate();
 
     const today = new Date();
     const year = today.getFullYear();
@@ -134,6 +136,8 @@ const RegisterForm2 = () => {
             setMatchPwd('');
 
             localStorage.setItem('savedEmail', response?.data?.email);
+
+            navigate('/login');
         
         } catch (err) {
             if (!err.response) {
@@ -152,20 +156,19 @@ const RegisterForm2 = () => {
 
     return (
         <>
-            {success ? (
+            {/* {success ? (
                 <section>
                     <h1>Success!</h1>
                     <p>
                         <a href='/login'>Sign In</a>
                     </p>
                 </section>
-            ) : (
-                <section>
+            ) : ( */}
+                <section class="auth--form">
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <h1>Register</h1>
-                    <form onSubmit={handleSubmit}>
+                    <form className="register" onSubmit={handleSubmit}>
                         <label htmlFor="username">
-                            Username:
+                            <span>이름</span>
                             <FontAwesomeIcon icon={faCheck} className={validName ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validName || !user ? "hide" : "invalid"} />
                         </label>
@@ -182,6 +185,7 @@ const RegisterForm2 = () => {
                             aria-describedby="uidnote"
                             onFocus={() => setUserFocus(true)}
                             onBlur={() => setUserFocus(false)}
+                            placeholder="이름"
                         />
                         <p id="uidnote" className={userFocus && user && !validName ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
@@ -189,7 +193,7 @@ const RegisterForm2 = () => {
                         </p>
 
                         <label htmlFor="password">
-                            Password:
+                            <span>패스워드</span>
                             <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />
                         </label>
@@ -207,14 +211,14 @@ const RegisterForm2 = () => {
                         />
                         <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            8 to 24 characters.<br />
-                            Must include uppercase and lowercase letters, a number and a special character.<br />
-                            Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                            8에서 24자 사이여야 합니다.<br />
+                            대문자와 소문자, 숫자, 그리고 특수 문자를 포함해야 합니다.<br />
+                            사용할 수 있는 특수 문자: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                         </p>
 
 
                         <label htmlFor="confirm_pwd">
-                            Confirm Password:
+                            <span>패스워드 확인</span>
                             <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
                         </label>
@@ -235,7 +239,7 @@ const RegisterForm2 = () => {
                         </p>
 
                         <label htmlFor='email'>
-                            Email:
+                            <span>이메일</span>
                             <FontAwesomeIcon icon={faCheck} className={validEmail ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validEmail || !email ? "hide" : "invalid"} />
                         </label>
@@ -244,7 +248,7 @@ const RegisterForm2 = () => {
                             id="email"
                             name="email"
                             ref={emailRef}
-                            autoComplete='email'
+                            autoComplete='off'
                             onChange={(e) => {
                                 setEmail(e.target.value);
                                 setEmailError('');
@@ -258,13 +262,12 @@ const RegisterForm2 = () => {
                         />
                         <p id="emailnote" className={emailFocus && !validEmail ? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
-                            이메일 형식을 맞춰 주세요. @ 필수 입니다. <br />
-                            예시) emailname@company.com
+                            이메일 형식을 맞춰 주세요. @ 필수 입니다.
                         </p>
                         <p className={emailError ? "error-message" : "offscreen"}>{emailError}</p> {/* 중복 에러 메시지 표시 */}
 
                         <label htmlFor='phone'>
-                            Phone:
+                            <span>전화번호</span>
                             <FontAwesomeIcon icon={faCheck} className={validPhone ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validPhone || !phone ? "hide" : "invalid"} />
                         </label>
@@ -288,7 +291,7 @@ const RegisterForm2 = () => {
                             예시) 010-0000-0000
                         </p>
 
-                        <label htmlFor='company'>
+                        {/* <label htmlFor='company'>
                             Company:
                             <FontAwesomeIcon icon={faCheck} className={validCompany ? "valid" : "hide"} />
                             <FontAwesomeIcon icon={faTimes} className={validCompany || !company ? "hide" : "invalid"} />
@@ -332,37 +335,36 @@ const RegisterForm2 = () => {
                         <p id="rolesnote" className={rolesFocus && !validRoles? "instructions" : "offscreen"}>
                             <FontAwesomeIcon icon={faInfoCircle} />
                             권한 작성 필수
-                        </p>
+                        </p> */}
 
-                        <label htmlFor='hireDate'>
+                        {/* <label htmlFor='hireDate'>
                             Hire Date:
-                            {/* <FontAwesomeIcon icon={faCheck} className={validHireDate ? "valid" : "hide"} />
-                            <FontAwesomeIcon icon={faTimes} className={validHireDate || !hireDate ? "hide" : "invalid"} /> */}
                         </label>
                         <input 
                             type="date"
                             id="hireDate"
                             name="hireDate"
-                            // ref={hireDateRef}
                             autoComplete='off'
                             onChange={(e) => setHireDate(e.target.value)}
                             value={hireDate}
                             required
-                        />
+                        /> */}
 
-                        <button disabled={!validName || !validPwd || !validMatch || !validEmail || !validPhone|| !validCompany ? true : false}>Sign Up</button>
+                        <button className="btn btn-large btn-primary" disabled={!validName || !validPwd || !validMatch || !validEmail || !validPhone ? true : false}>
+                            <span className="mx-auto">등록</span>
+                        </button>
                     </form>
                     <p>
-                        Already registered?<br />
+                        이미 등록 하셨나요?<br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a href="#">Sign In</a>
+                            <a href="/login">로그인</a>
                         </span>
                     </p>
                 </section>
-            )}
+            {/* )} */}
         </>
     )
 }
 
-export default RegisterForm2;
+export default RegisterForm;

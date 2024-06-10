@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-:host {
+:root {
+    --login-background-color: #2D383A;
     --black-color: #000;
     --visited-color: #0021f4;
+    --hover-color: #7047eb;
     --opacity-0-4: 0.4;
 }
 
@@ -14,8 +17,7 @@
 }
 
 html {
-    font-family: 'Nunito', sans-serif;
-    font-size: 22px;
+    font-size: 16px;
 }
 
 body {
@@ -32,50 +34,23 @@ body {
     min-height: 100vh; 
 }
 
-/* section {
-    width: 100%;
-    max-width: 420px;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 1rem;
-    background-color: rgba(0,0,0,0.4);
-} */
-
 a, a:visited {
     color: var(--visited-color);
 }
 
-/* input[type="text"],
-input[type="email"],
-input[type="date"],
-input[type="password"],
-button,
-textarea {
-    font-family: 'Nunito', sans-serif;
-    font-size: 22px;
-    padding: 0.25rem;
-    border-radius: 0.5rem;
-} */
-
-/* label,
-button {
-    margin-top: 1rem;
-} */
-
-/* button {
-    padding: 0.5rem;
-} */
+a:hover {
+    color: var(--hover-color);
+}
 
 .instructions {
+    margin: 0 0 1rem 0;
     font-size: 0.75rem;
     border-radius: 0.5rem;
     background: #000;
     color: #fff;
-    padding: 0.25rem;
+    padding: 0.5rem;
     position: relative;
-    bottom: -10px;
+    bottom: 0;
 }
 
 .instructions > svg {
@@ -102,14 +77,241 @@ button {
 }
 
 .errmsg {
-    background-color: lightpink;
-    color: firebrick;
+    background-color: #ffdfe4;
+    color: #e33939;
     font-weight: bold;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin: 0 0 1.25rem;
+    padding: .5rem;
+    border-radius: .5rem;
 }
 
 .line {
     display: inline-block;
 }
 
+/* 버튼 스타일 */
+.btn {
+    display: inline-flex;
+    max-width: 100%;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 8px;
+    background-color: #f7f7f8;
+    padding: 8px 16px;
+    font-weight: 500;
+    color: #25252d;
+}
+
+button, [type=button], [type=reset], [type=submit] {
+    background-color: transparent;
+    background-image: none;
+}
+
+.btn-large {
+    padding: 14px 16px;
+    font-size: 1rem;
+    line-height: 28px;
+}
+
+.btn.btn-primary {
+    background-color: #7047eb;
+    color: #fff;
+}
+
+.btn.btn-primary:disabled {
+    background-color: #beb5da;
+}
+
+.btn > span {
+    display: inline-block;
+    margin: 0 auto;
+    line-height: 1;
+    color: #fff;
+}
+
+
+/* Auth(login/register) layout */
+section.auth--form {
+    width: 100%;
+    max-width: 560px;
+}
+
+section.auth--form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
+    padding-bottom: 1rem;
+}
+
+section.auth--form form.register label {
+    margin-bottom: 1rem;
+}
+
+section.auth--form form label span {
+    font-weight: 500;
+    font-size: 1.25rem;
+}
+
+section.auth--form form.login input:not([type=checkbox]) {
+    margin-bottom: 1rem;
+}
+
+section.auth--form form.register input {
+    margin-bottom: 1.5rem;
+}
+
+section.auth--form input:is([type=text], [type=email],[type=password]) {
+    display: block;
+    width: 100%;
+    padding: .5rem 1rem;
+    font-size: .875rem;
+    border-radius: .5rem;
+    border-width: 0;
+    line-height: 1.5rem;
+    background-color: #fff;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    --text-opacity: 1;
+    color: rgb(37 37 45 / var(--text-opacity));
+    --shadow: 0px 0px 0px 1px rgba(10, 10, 46, .16) inset, 0px 1px 1px rgba(10, 10, 11, .06);
+    --shadow-colored: inset 0px 0px 0px 1px var(--shadow-color), 0px 1px 1px var(--shadow-color);
+    box-shadow: var(--ring-offset-shadow, 0 0 #0000), var(--ring-shadow, 0 0 #0000), var(--shadow);
+}
+
+.auth--layout {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.auth--area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+}
+
+.register--area,
+.login--area,
+.promotion--area {
+    width: 100%;
+}
+
+.register--title,
+.login--title {
+    margin-bottom: 2.25rem;
+    line-height: 1;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.5rem;
+    letter-spacing: -0.025rem;
+}
+
+.promotion--area {
+    display: none;
+}
+
+/* 로그인 영역 */
+
+form.login .authOptionsContainer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+form.login .authOptionsContainer > div {
+    display: flex;
+    align-items: center;
+}
+
+form.login .authOptionsContainer label {
+    padding-top: 4px;
+    font-size: 1rem;
+    line-height: 20px;
+}
+
+form.login .authOptionsContainer input[type=checkbox] {
+    appearance: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 1px solid #ddd;
+    border-radius: .35rem;
+}
+
+form.login .authOptionsContainer input[type=checkbox]:checked {
+    border-color: transparent;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+    background-size: 100% 100%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-color: #32cd32;
+}
+
+form.login + p.accountNotice {
+    font-size: 14px;
+    color: #666;
+}
+
+@media (min-width: 768px) {
+    .auth--area,
+    .promotion--area {
+        width: 50%;
+    }
+
+    .promotion--area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        background-color: var(--login-background-color);
+    }
+}
+
+/* register */
+
+/* 
+.register-form input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.register-form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.register-btn {
+    width: 100%;
+    height:40px;
+    font-weight: 500;
+    font-size: 1.25rem;
+    color: #fff;
+    background-color: #007bff;
+} */
+
+
+/* login */
+
+/* 
+section form .form--input {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 14px;
+    line-height: 24px;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 8px;
+    border-width: 0;
+    border: 1px solid #ddd;
+}
+
+section form .form--input:is(:hover, :active, :focus) {
+    border-color: #7047eb;
+} */

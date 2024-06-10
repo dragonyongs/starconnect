@@ -1,14 +1,21 @@
 import React from 'react';
 import RegisterForm from './RegisterForm';
-import TermsOfService from './TermsOfService';
+import MessageBox from '../../components/Messagebox';
+import '../../index.css'
 
 const RegisterPage = () => {
     return (
-        <div>
-            <h1>Register</h1>
-            <RegisterForm />
-            <TermsOfService />
-        </div>
+        <>
+            <div className="auth--layout">
+                <div className="auth--area">
+                    <h1 className="register--title">Register</h1>
+                    <RegisterForm />
+                </div>
+                <div className="promotion--area">
+                    <MessageBox />
+                </div>
+            </div>
+        </>
     );
 }
 

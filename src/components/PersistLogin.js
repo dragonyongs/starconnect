@@ -13,17 +13,17 @@ const PersistLogin = () => {
         const roles = JSON.parse(localStorage.getItem("roles")) || [];
         if (accessToken) {
             console.log("PersistLogin: Setting auth", { accessToken, refreshToken, roles });
-            setAuth({ accessToken, refreshToken, roles });
+            setAuth({ accessToken, refreshToken, roles, isAuthenticated: true });
         }
         setIsLoading(false);
     }, [setAuth]);
 
     useEffect(() => {
-        if (!auth.accessToken) {
+        if (!isLoading && !auth?.isAuthenticated) {
             console.log('로그인 정보 없음');
             navigate("/login", { replace: true });
         }
-    }, [auth, navigate]);
+    }, [isLoading, auth, navigate]);
 
     if (isLoading) {
         return <p>Loading...</p>;
@@ -31,7 +31,7 @@ const PersistLogin = () => {
 
     return (
         <>
-            {auth.accessToken ? <Outlet /> : <Navigate to="/login" replace />}
+            {auth?.isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />}
         </>
     );
 };

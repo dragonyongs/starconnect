@@ -1,6 +1,9 @@
+.inputBlock {
+    display: flex;
+    flex-direction: column;
+}
 
-
-label span {
+.inputBlock label span {
     display: inline-block;
     font-weight: 500;
     font-size: .875rem;
@@ -8,30 +11,39 @@ label span {
     letter-spacing: -0.0625rem;
 }
 
-.custom-input {
+.inputBlock .custom-input {
+    padding: .5rem 1rem;
+    font-size: .875rem;
     border: 1px solid #ddd;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     border-radius: .5rem;
+    border-width: 0;
+    border: 1px solid #ddd;
+
 }
 
-.custom-input:hover {
+.inputBlock .custom-input:hover {
     border: 1px solid #999;
 }
 
-.custom-input::placeholder {
+.inputBlock .custom-input::placeholder {
     font-size: .875rem;
 }
-.required .custom-input:is(:focus, :active),
-.custom-input:is(:focus, :active) {
+.inputBlock .required + .custom-input:is(:focus, :active),
+.inputBlock .custom-input:is(:focus, :active) {
     border: 1px solid #009900;
     outline: none;
 }
 
-.required .custom-input,
-.required .custom-input:active {
+.inputBlock .required + .custom-input,
+.inputBlock .required + .custom-input:active {
     border: 1px solid #ff0000;
 }
 
-.required span ,
-.required .custom-input::placeholder {
+.inputBlock .required span ,
+.inputBlock .required + .custom-input::placeholder {
     color: #ff0000;
 }

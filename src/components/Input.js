@@ -22,8 +22,10 @@ const Input = forwardRef(({ name, onChange, required, className, 'aria-label': a
     };
 
     return (
-        <label className={`${isRequired ? 'required' : ''}`}>
-            <span>{ariaLabel}</span>
+        <>
+            <label className={`${isRequired ? 'required' : ''}`}>
+                <span>{ariaLabel}</span>
+            </label>
             <input
                 ref={ref}
                 name={name}
@@ -36,7 +38,7 @@ const Input = forwardRef(({ name, onChange, required, className, 'aria-label': a
                 {...props}
                 required={required}
             />
-        </label>
+        </>
     );
 });
 
